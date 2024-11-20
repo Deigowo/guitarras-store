@@ -4,8 +4,14 @@ const props = defineProps({
     cart: {
         type: Array,
         required: true
+    }, 
+    total: {
+        type: Number,
+        required: true
     }
 })
+
+defineEmits(['add-One', 'delete-One', 'delete-Guitar', 'empty-Cart'])
 
 </script>
 
@@ -29,17 +35,20 @@ const props = defineProps({
                             <p
                                 v-if="cart.length === 0"
                                 class="text-center">El carrito está vacío</p>
-                            <table class="w-100 table">
-                                <thead>
-                                        <th>Imagen</th>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                        <th>Cantidad</th>
-                                        <th></th>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="guitar in cart">
-                                        <td>
+                                <div v-else>
+                                <table class="w-100 table">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagen</th>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="guitar in cart" :key="guitar.id">
+                                            <td>
                                             <img 
                                                 class="img-fluid"
                                                 :src="'/img/' + guitar.imagen + '.jpg'"
@@ -53,35 +62,43 @@ const props = defineProps({
                                             <button
                                                 type="button"
                                                 class="btn btn-dark"
+                                                @click="$emit('delete-One', guitar.id)"
                                             >
                                                 -
                                             </button>
-                                                1
+                                                {{ guitar.cantidad }}
                                             <button
                                                 type="button"
                                                 class="btn btn-dark"
+                                                @click="$emit('add-One', guitar.id)"
                                             >
                                                 +
                                             </button>
-                                        </td>
-                                        <td>
+                                            </td>
+                                            <td>
                                             <button
                                                 class="btn btn-danger"
                                                 type="button"
+                                                @click="$emit('delete-Guitar', guitar.id)"
                                             >
                                                 X
                                             </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                            <p class="text-end">Total pagar: <span class="fw-bold">$899</span></p>
-                            <button class="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                            <p class="text-end">Total pagar: <span class="fw-bold">${{ total }}</span></p>
+                            <button 
+                            class="btn btn-dark w-100 mt-3 p-2"
+                            @click="$emit('empty-Cart')">
+                            Vaciar Carrito
+                            </button>
                         </div>
                     </div>
-                </nav>
-            </div><!--.row-->
+                </div>
+            </nav>
+        </div><!--.row-->
 
             <div class="row mt-5">
                 <div class="col-md-6 text-center text-md-start pt-5">
