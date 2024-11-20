@@ -1,4 +1,13 @@
-<script setup>  </script>
+<script setup> 
+
+const props = defineProps({
+    cart: {
+        type: Array,
+        required: true
+    }
+})
+
+</script>
 
 <template> 
 
@@ -17,25 +26,28 @@
                         <img class="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" class="bg-white p-3">
-                            <p class="text-center">El carrito esta vacio</p>
+                            <p
+                                v-if="cart.length === 0"
+                                class="text-center">El carrito está vacío</p>
                             <table class="w-100 table">
                                 <thead>
-                                    <tr>
                                         <th>Imagen</th>
                                         <th>Nombre</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
                                         <th></th>
-                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr v-for="guitar in cart">
                                         <td>
-                                            <img class="img-fluid" src="/img/guitarra_02.jpg" alt="imagen guitarra">
+                                            <img 
+                                                class="img-fluid"
+                                                :src="'/img/' + guitar.imagen + '.jpg'"
+                                                :alt="'imagen guitar' + guitar.nombre"> 
                                         </td>
-                                        <td>SRV</td>
+                                        <td>{{ guitar.nombre }}</td>
                                         <td class="fw-bold">
-                                                $299
+                                                ${{ guitar.precio }}
                                         </td>
                                         <td class="flex align-items-start gap-4">
                                             <button
