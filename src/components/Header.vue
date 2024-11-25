@@ -8,10 +8,14 @@ const props = defineProps({
     total: {
         type: Number,
         required: true
+    },
+    guitar: {
+        type: Object,
+        required: true
     }
 })
 
-defineEmits(['add-One', 'delete-One', 'delete-Guitar', 'empty-Cart'])
+defineEmits(['add-One', 'delete-One', 'delete-Guitar', 'empty-Cart', 'add-Cart'])
 
 </script>
 
@@ -47,7 +51,7 @@ defineEmits(['add-One', 'delete-One', 'delete-Guitar', 'empty-Cart'])
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="guitar in cart" :key="guitar.id">
+                                        <tr v-for="guitar in cart">
                                             <td>
                                             <img 
                                                 class="img-fluid"
@@ -102,10 +106,11 @@ defineEmits(['add-One', 'delete-One', 'delete-Guitar', 'empty-Cart'])
 
             <div class="row mt-5">
                 <div class="col-md-6 text-center text-md-start pt-5">
-                    <h1 class="display-2 fw-bold">Modelo VAI</h1>
-                    <p class="mt-5 fs-5 text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, possimus quibusdam dolor nemo velit quo, fuga omnis, iure molestias optio tempore sint at ipsa dolorum odio exercitationem eos inventore odit.</p>
-                    <p class="text-primary fs-1 fw-black">$399</p>
+                    <h1 class="display-2 fw-bold">Modelo {{ guitar.nombre }}</h1>
+                    <p class="mt-5 fs-5 text-white"> {{ guitar.descripcion }}</p>
+                    <p class="text-primary fs-1 fw-black">${{ guitar.precio }}</p>
                     <button 
+                        @click="$emit('add-Cart', guitar)"
                         type="button"
                         class="btn fs-4 bg-primary text-white py-2 px-5"
                     >Agregar al Carrito</button>
